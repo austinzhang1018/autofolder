@@ -1,15 +1,6 @@
 from engine import should_play
-
 from selenium.webdriver import Chrome
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.firefox.options import Options
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
-from selenium.common.exceptions import ElementClickInterceptedException
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.support.ui import Select
+from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 from time import sleep
 
@@ -46,9 +37,7 @@ driver = Chrome(options=opts)
 driver.set_window_size(1000, 800)
 driver.set_window_position(0, 0)
 driver.get(link)
-
 input("Press enter after joining the game.")
-
 page_soup = BeautifulSoup(driver.page_source, 'html.parser')
 
 while (True):
@@ -57,9 +46,7 @@ while (True):
 	while not page_soup.select_one('button.fold'):
 		sleep(1)
 		page_soup = BeautifulSoup(driver.page_source, 'html.parser')
-
 	is_bb = False
-	
 	# if there are no table cards we're on preflop
 	print('starting')
 	if page_soup.select_one('.table-cards') and len(page_soup.select_one('.table-cards').contents) == 0:
@@ -99,12 +86,10 @@ while (True):
 					sound()
 					print("Error! Couldn't fold!")
 		last_cards = cards
-
 	print('done with preflop, waiting on hand to finish')
 	reached_flop = False
 	while True:
 		page_soup = BeautifulSoup(driver.page_source, 'html.parser')
-
 		if reached_flop:
 			if is_bb and page_soup.select_one('button.fold'):
 				sound()
@@ -119,5 +104,4 @@ while (True):
 			if page_soup.select_one('.table-cards') and len(page_soup.select_one('.table-cards').contents) != 0:
 				reached_flop = True
 		sleep(.8)
-
 	print('hand finished')
