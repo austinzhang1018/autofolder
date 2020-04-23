@@ -95,7 +95,7 @@ while (True):
 				sound()
 				print('reached flop checking bb')
 				is_bb = False
-			if page_soup.select_one('p.table-pot-size').text == '0':
+			if page_soup.select_one('p.table-pot-size') and page_soup.select_one('p.table-pot-size').text == '0':
 				print('pot 0')
 				break
 		else:
