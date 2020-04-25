@@ -31,6 +31,7 @@ def get_strategy():
 # initialize
 link = input("Paste Link Here: ").strip()
 chen_score = get_strategy()
+print('Starting strategy:', chen_score)
 
 opts = Options()
 driver = Chrome(options=opts)

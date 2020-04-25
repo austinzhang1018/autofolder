@@ -48,8 +48,10 @@ def custom_percentages():
 # position is your current position with the dealer being the 0th position
 # strategy is a profile describing how tight/loose to play
 def should_play(card1, card2, num_players, position, strategy):
-	return custom_range(card1, card2)
-	# return chen_formula(card1, card2) >= strategy
+	if strategy == -2:
+		return custom_range(card1, card2)
+	else:
+		return chen_formula(card1, card2) >= strategy
 
 
 # custom range for 6-10 max play
