@@ -1,4 +1,5 @@
 import math
+from itertools import combinations
 # percent of hands played with chen formula
 # -1 1.0
 # 0 0.9763313609467456
@@ -37,11 +38,23 @@ def custom_percentages():
 	count = 0
 	for i in range(2, 15):
 			for j in range(i, 15):
-				if i != j and should_play((i, 'c'), (j, 'c'), 0, 0, 0):
+				if i != j and should_play((i, 'c'), (j, 'c'), 0, 0, -2):
 					count += 1
-				if should_play((i, 'c'), (j, 'a'), 0, 0, 0):
+				if should_play((i, 'c'), (j, 'a'), 0, 0, -2):
 					count += 1
 	print(count/169)
+
+def playable_hands(strategy, param):
+	cards = []
+	for i in range(2, 15):
+		for s in range(4):
+			cards.append((i, s))
+	all_hands = list(combinations(cards, 2))
+	counter = 0
+	for hand in all_hands:
+		if strategy(hand[0], hand[1], 0, 0, param):
+			counter += 1
+	print(counter / len(all_hands))
 
 # cards are represented as tuples with values [2, 14] and suits a character s, d, c, h
 # num_players is an integer with the number of players
@@ -116,3 +129,6 @@ def chen_formula(card1, card2):
 		value += 2
 	value += chen_connectors(card1, card2)
 	return math.ceil(value)
+
+
+playable_hands(should_play, -2)
